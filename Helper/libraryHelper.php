@@ -111,18 +111,4 @@ class bookHelper
     }
 }
 
-
-
-$obj = new bookHelper();
-$obj->connect("144.34.241.208","aiglibrary","yaron","huang");
-
-$arr = array(
-'name'=>'五一',
-'author'=>'Lee',
-'type'=>'小说',
-'path'=>'./',
-);
-
-$obj->add($arr);
-$obj->findByName("将");
 ?>

@@ -152,9 +152,4 @@ class userHelper
 
 }
 
-$obj = new userHelper();
-$obj->connect("144.34.241.208","aiglibrary","yaron","huang");
-$obj->alreadyLogin();
-$obj->login("yaron","123456");
-
 ?>
