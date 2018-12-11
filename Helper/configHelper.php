@@ -16,7 +16,7 @@ function __getGroupArray($section, $fileContent)
 function __addKey($section, $key, $value, $fileContent)
 {
     $group = __getGroupArray($section, $fileContent);
-    if($group != null && array_key_exists($key, $group))
+    if($group !== null && array_key_exists($key, $group))
     {
         if(trim($section) == '')
             $fileContent[$key] = $value;
@@ -29,7 +29,7 @@ function __addKey($section, $key, $value, $fileContent)
         $fileContent[$key] = $value;
     else 
     {
-        if($group != null)
+        if($group !== null)
         {    
             $group[$key] = $value;
             $fileContent[$section] = $group;
@@ -53,7 +53,7 @@ function getValue($section, $key, $default, $filepath)
     $content = parse_ini_file($filepath, TRUE);
     $group   = __getGroupArray($section, $content);
 
-    if($group != null && array_key_exists($key, $group))
+    if($group !== null && array_key_exists($key, $group))
     {
         return $group[$key];
     }

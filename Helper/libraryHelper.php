@@ -76,7 +76,7 @@ class bookHelper
         if(!array_key_exists('path', $attr))
             return false;
 
-        if($this->findByName($attr['name'],false) != null)
+        if($this->findByName($attr['name'],false) !== null)
             return false;
 
         $id = $this->getNewID();

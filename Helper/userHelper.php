@@ -1,4 +1,5 @@
 <?php
+header('Content-type:text/html; charset=utf-8');
 require_once 'mysqlHelper.php';
 /****'user'TABLE****************************
  id   name   pwd   email   permission  
@@ -10,6 +11,7 @@ class userHelper
     public  $user      = null;
     public  $pwd       = null;
     public  $islogin   = false;
+
 
     public function connect($ip, $dbname, $user, $pwd)
     {
@@ -62,8 +64,25 @@ class userHelper
         $data = $this->mysqlTool->get($sql);
         return $data;
     }
+    
+    public function alreadyLogin()
+    {
+        if($this->islogin)
+            return true;
+        if(session_status() !== PHP_SESSION_ACTIVE)
+            session_start();
+        if (isset($_COOKIE['user']))
+        {
+            $_SESSION['user'] = $_COOKIE['user'];
+            $_SESSION['pwd'] = $_COOKIE['pwd'];
+            $check = $this->login($_SESSION['user'],$_SESSION['pwd']);
+            if($check)
+                return true;
+        }
+        return false;
+    }
 
-    public function login($user, $pwd)
+    public function login($user, $pwd, $save=TRUE)
     {
         $info = $this->getUserInfo($user);
         if($info == null)
@@ -74,9 +93,34 @@ class userHelper
             $this->user    = $user;
             $this->pwd     = $pwd;
             $this->islogin = true;
+
+            if(session_status() !== PHP_SESSION_ACTIVE)
+                session_start();
+            $_SESSION['user'] = $user;
+            $_SESSION['pwd']  = $pwd;
+            setcookie('user', $user, time()+7*24*60*60);
+            setcookie('pwd', $pwd, time()+7*24*60*60);
             return true;
         }
         return false;
+    }
+
+    public function logout()
+    {
+        if(!$this->islogin)
+            return;
+
+        $this->islogin = false;
+        $this->user    = null;
+        $this->pwd     = null;
+
+        if(session_status() !== PHP_SESSION_ACTIVE)
+            session_start();
+        $_SESSION = array();
+        session_destroy();
+
+        setcookie('user', '', time()-99);
+	    setcookie('pwd', '', time()-99);
     }
 
     public function register($user, $pwd, $email, $permission)
@@ -85,7 +129,7 @@ class userHelper
             return false;
 
         $info = $this->getUserInfo($user);
-        if($info != null)
+        if($info !== null)
             return false;
 
         $id = $this->getNewID();
@@ -105,11 +149,12 @@ class userHelper
         $this->islogin = true;
         return true;
     }
+
 }
 
 $obj = new userHelper();
 $obj->connect("144.34.241.208","aiglibrary","yaron","huang");
-$obj->register("yaron","123456","yaronhuang@qq.com","1");
+$obj->alreadyLogin();
 $obj->login("yaron","123456");
 
 ?>

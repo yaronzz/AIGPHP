@@ -47,13 +47,13 @@ function getObjsInDir($path, $all0fils1dirs2=0)
     $array = array();
     if ($dh = opendir($path))
     {
-        while (($file = readdir($dh))!= false)
+        while (($file = readdir($dh))!== false)
         {
             $filePath = $path.$file;
             $flag = is_dir($filePath);
             $tmp  = strrchr($filePath,"RECYCLE.BIN");
 
-            if($tmp != '')
+            if($tmp !== '')
                 continue;
             if($all0fils1dir2 == 1 && $flag)
                 continue;
