@@ -50,6 +50,9 @@ function getValue($section, $key, $default, $filepath)
         return $default;
     }
 
+    if(!file_exists($filepath))
+        return $default;
+
     $content = parse_ini_file($filepath, TRUE);
     $group   = __getGroupArray($section, $content);
 
@@ -65,6 +68,14 @@ function setValue($section, $key, $value, $filepath)
 {
     if(trim($filepath) == '' || trim($key) == '')
         return FALSE;
+
+    if(!file_exists($filepath))
+    {
+        $myfile = fopen($filepath, "w");
+        if($myfile == NULL)
+            return FALSE;
+        fclose($myfile);
+    }    
 
     $content = parse_ini_file($filepath, TRUE);
     $content = __addKey($section, $key, $value, $content);

@@ -3,7 +3,7 @@ require_once 'mysqlHelper.php';
 /****'book'TABLE****************************
  id   name   author   date   desc   type   path
 ********************************************/
-class bookHelper
+class libraryHelper
 {
     private $conn = null;
     public function connect($ip, $dbname, $user, $pwd)
