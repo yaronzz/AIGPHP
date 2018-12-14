@@ -14,7 +14,7 @@ if(!$config->init())
 if (!isset($_POST['login'])) 
 {
     if($config->userSql->alreadyLogin())
-        header('location:index.html');
+        header('location:main/index.html');
     else
         header('location:login.html');
 }
@@ -25,7 +25,7 @@ else
     $password = trim($_POST['pwd']);
 
     if($config->userSql->login($username,$password))
-        header('location:index.html');
+        header('location:main/index.html');
     else 
         header('location:login.html');
 }

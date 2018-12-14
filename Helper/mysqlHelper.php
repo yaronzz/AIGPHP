@@ -96,6 +96,23 @@ class mysqlHelper
         else
             return false;
     }
+
+
+
+    public function getMax($table, $colname)
+    {
+        $sql  = "SELECT MAX({$colname}) from {$table}";
+        $data = $this->get($sql);
+        if(count($data) <= 0)
+            return 0;
+        return $data[0]["MAX({$colname})"] + 1;
+    }
+
+    public function getAllDiff($table, $colname)
+    {
+        $sql  = "SELECT DISTINCT {$colname} from {$table}";
+        return $this->get($sql);
+    }
 }
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 require_once 'mysqlHelper.php';
 /****'book'TABLE****************************
- id   name   author   date   desc   type   path
+ id   name   author   date   desc   type   path   popular   doubanurl
 ********************************************/
 class libraryHelper
 {
@@ -107,6 +107,18 @@ class libraryHelper
             $sql = "select * from book limit $from,$to";
         }
         $data = $this->conn->get($sql);
+        return $data;
+    }
+
+    public function getAllType()
+    {
+        $data = $this->conn->getAlldiff("book", "type");  
+        return $data;
+    }
+
+    public function getAllAuthor()
+    {
+        $data = $this->conn->getAlldiff("book", "author");  
         return $data;
     }
 }
