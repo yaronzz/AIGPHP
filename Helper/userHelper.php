@@ -12,7 +12,6 @@ class userHelper
     public  $pwd       = null;
     public  $islogin   = false;
 
-
     public function connect($ip, $dbname, $user, $pwd)
     {
         $con = new mysqlHelper();
@@ -88,7 +87,7 @@ class userHelper
         if($info == null)
             return false;
         
-        if($info['pwd'] == $pwd)
+        if($info['pwd'] == md5($pwd))
         {
             $this->user    = $user;
             $this->pwd     = $pwd;
@@ -136,7 +135,7 @@ class userHelper
         $arr = array(
         'id'         => "$id",
         'name'       => "$user",
-        'pwd'        => "$pwd",
+        'pwd'        => "md5($pwd)",
         'email'      => "$email",
         'permission' => "$permission",
         );
@@ -149,7 +148,6 @@ class userHelper
         $this->islogin = true;
         return true;
     }
-
 }
 
 ?>
